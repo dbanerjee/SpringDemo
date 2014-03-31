@@ -1,0 +1,13 @@
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'jetty'
+
+task "create-dirs" << {
+	System.out.println("Creating Source Directories.")
+	sourceSets*.java.srcDirs*.each { it.mkdirs() }
+	sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '1.11'
+}
