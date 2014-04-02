@@ -1,11 +1,27 @@
 apply plugin: 'java'
 apply plugin: 'eclipse-wtp'
+apply plugin: 'war'
 apply plugin: 'jetty'
 
-task "create-dirs" << {
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+}
+
+war {
+	exclude '*.xml'
+	webXml = file('src/main/webapp/web.xml')
+	baseName = 'spring-demo-1.0.0'
+}
+
+task createDirs << {
 	System.out.println("Creating Source Directories.")
 	sourceSets*.java.srcDirs*.each { it.mkdirs() }
 	sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+	webAppDir.mkdirs()
 }
 
 task wrapper(type: Wrapper) {
